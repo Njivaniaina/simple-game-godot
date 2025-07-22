@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://8v4ipu4ikhqi"]
+
+[ext_resource type="Script" uid="uid://delm0sbcdjsb8" path="res://mob/bat/mob.gd" id="1_ih2ng"]
+[ext_resource type="PackedScene" uid="uid://cfc1bjtiotj6g" path="res://mob/bat/bat_model.tscn" id="1_pgttr"]
+[ext_resource type="AudioStream" uid="uid://dr72hgcsnsq8g" path="res://mob/mob_take_damage.wav" id="3_llldc"]
+[ext_resource type="AudioStream" uid="uid://ccewkevj7ps28" path="res://mob/mob_ko.wav" id="4_g7bq0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ih2ng"]
+radius = 0.33837
+
+[node name="Mob" type="RigidBody3D"]
+collision_layer = 2
+gravity_scale = 0.0
+script = ExtResource("1_ih2ng")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ih2ng")
+
+[node name="bat_model" parent="." instance=ExtResource("1_pgttr")]
+unique_name_in_owner = true
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 2.0
+one_shot = true
+
+[node name="damage" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_llldc")
+
+[node name="died" type="AudioStreamPlayer3D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_g7bq0")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
